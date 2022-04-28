@@ -1,0 +1,99 @@
+<html>
+<head>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+<script type="text/javascript">
+
+var primes;
+function onClickHandler() {
+    var startTime = (new Date()).getTime();
+    primes = [10];
+    var n = parseInt( document.getElementById("endN").value );
+    if(isNaN(n)) {
+       alert("Is not a number!");
+       return;
+    }
+    var tbody = document.createElement("tbody");
+    var tr = document.createElement("tr");
+    tbody.appendChild(tr);
+    for(var i=1; i<=n; i++) {
+       if( i%10==1 ){
+          tr = document.createElement("tr");
+          tbody.appendChild(tr);
+       }
+       var td = document.createElement("td");
+       td.appendChild( document.createTextNode(i) );
+       td.style.border = "1px solid gray";
+       if(  IsPrime(i) )
+           td.style.backgroundColor = "magenta";
+       tr.appendChild(td);
+    }
+    var table = document.createElement("table");
+    table.setAttribute("cellPadding", "5");
+    table.appendChild(tbody);
+    var container = document.getElementById("container");
+    container.innerHTML = "";
+    container.appendChild(document.createTextNode("trovati: "+primes.length));
+    container.appendChild(document.createTextNode(" tempo [s]: "+((new Date()).getTime()-startTime)/1000  ) );
+    container.appendChild(table);
+}
+
+function isPrimeNumber(n) {
+    if(n==1) return true;
+    else if(n % 10 && n%2) return false;
+     
+    for(var j=0; j<primes.length; j++)
+        if( n%primes[j]==1 ) return false;
+    primes.push(n);
+    return true;
+}
+
+function IsPrime(n) {
+                // restituisce true se il numero n è primo cioè ha
+                //come fattori solo 1 e n
+                // restituisce false se il numero n non è primo
+                //cioè ha un numero di fattori > 2
+              let bOut=true;
+                  for(fattore=2;((fattore<=n/2)&& bOut);fattore++)
+                        {
+                           if (n%fattore==0)
+                                    {
+                                        bOut=false;
+                                    }
+                        }
+               return bOut;
+            }
+        
+ 
+  $('.draggable, .draggable2, .dragged, ').draggable();
+  $('.droppable').droppable({
+    drop: function( event, ui ) {
+        $( this ).addClass( "dropped" )
+        .find( "p" )
+    
+      },
+    out: function (event, ui){
+    $(this).removeClass('dropped')
+    .find( "p" )
+    $('.draggable').css({"background" : ""});
+  }
+  });
+  
+
+
+
+
+</script>
+
+</head>
+<body>
+   <input id="endN" name="endN"  type="text" type="text" />
+   <br/>
+   <button onclick="onClickHandler()",>search</button>
+   <div id="container"></div>
+   <br>
+   <p>I numeri primi sono : 26</p>
+</body>
+</html>
